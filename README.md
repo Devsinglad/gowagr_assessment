@@ -58,3 +58,9 @@ lib/
 | `flutter`            | UI toolkit                  |
 | `intl`               | Date formatting             |
 | `google_fonts`       | Font selection              |             
+
+---
+
+### ScreenShot
+
+![Explore Screen](screenshot/img.png)
