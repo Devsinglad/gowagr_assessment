@@ -36,22 +36,29 @@ git clone https://github.com/yourusername/gowagr_assessment.git
 cd gowagr_assessment
 flutter pub get
 flutter run
+```
+
+---
+
+### Project Structure
 
 lib/
 ├── data/
-│   ├── model/             # Data models (Event, Market, Pagination)
-│   ├── services/          # API service and error handling
-│   └── local_data/        # Repository with shared_preferences
-├── provider/              # ExploreViewModel using ChangeNotifier
-├── view/                  # UI Screens (Explore tab, components)
-├── widgets/               # Reusable UI widgets
-└── utils/                 # Colors, constants, themes
+│ ├── model/ # Data models (Event, Market, Pagination)
+│ ├── services/ # API service and error handling
+│ └── local_data/ # Repository with shared_preferences
+├── provider/ # ExploreViewModel using ChangeNotifier
+├── view/ # UI Screens (Explore tab, components)
+├── widgets/ # Reusable UI widgets
+└── utils/ # Colors, constants, themes
 
 | Package              | Description                 |
-| -------------------- | --------------------------- |
+|----------------------|-----------------------------|
 | `dio`                | API requests and networking |
 | `provider`           | State management            |
 | `shared_preferences` | Persistent caching          |
 | `flutter`            | UI toolkit                  |
 | `intl`               | Date formatting             |
 | `google_fonts`       | Font selection              |             
+
+---
