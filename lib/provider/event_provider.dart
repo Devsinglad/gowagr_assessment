@@ -27,7 +27,6 @@ class ExploreViewModel extends ChangeNotifier with StateViewModel {
   int _currentPage = 1;
   bool _hasMore = true;
   bool _isFetchingMore = false;
-  Repository? _repository;
 
   List<Event> get events => _events;
 
@@ -51,13 +50,6 @@ class ExploreViewModel extends ChangeNotifier with StateViewModel {
       _hasMore = true;
       _events.clear();
       setState(ViewState.loading);
-
-      final cached = await Repository.getInstance()!.getCachedEvents();
-      if (cached != null) {
-        _events = cached.events;
-        _hasMore = _currentPage < cached.pagination.lastPage;
-        notifyListeners();
-      }
     } else {
       _isFetchingMore = true;
       notifyListeners();
@@ -74,21 +66,42 @@ class ExploreViewModel extends ChangeNotifier with StateViewModel {
         size: 10,
       );
 
-      if (reset) setState(ViewState.success);
+      if (reset) {
+        _events.clear();
+        setState(ViewState.success);
+      }
 
-      await Repository.getInstance()!.cacheResponse(
-        json.encode(response.toJson()),
-      );
+      if (response.events.isEmpty && reset) {
+        _events.clear();
+        _hasMore = false;
+      } else {
+        _events.addAll(response.events);
+        _hasMore = _currentPage < response.pagination.lastPage;
 
-      _events.addAll(response.events);
-      _hasMore = _currentPage < response.pagination.lastPage;
-      _currentPage++;
+        if (reset) {
+          await Repository.getInstance()!.cacheResponse(
+            json.encode(response.toJson()),
+          );
+        }
+
+        _currentPage++;
+      }
 
       _isFetchingMore = false;
       notifyListeners();
     } on DioException catch (e) {
+      if (reset) {
+        final cached = await Repository.getInstance()!.getCachedEvents();
+        if (cached != null) {
+          _events = cached.events;
+          _hasMore = _currentPage < cached.pagination.lastPage;
+          setState(ViewState.success);
+        } else {
+          setState(ViewState.error);
+        }
+      }
+
       _isFetchingMore = false;
-      setState(ViewState.error);
       notifyListeners();
       handleDioError(e, context);
     }
