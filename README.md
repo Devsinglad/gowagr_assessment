@@ -38,8 +38,6 @@ flutter pub get
 flutter run
 ```
 
----
-
 ### Project Structure
 
 lib/
@@ -60,5 +58,3 @@ lib/
 | `flutter`            | UI toolkit                  |
 | `intl`               | Date formatting             |
 | `google_fonts`       | Font selection              |             
-
----
